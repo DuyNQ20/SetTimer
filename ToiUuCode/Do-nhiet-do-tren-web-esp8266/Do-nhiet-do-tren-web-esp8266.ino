@@ -1,6 +1,7 @@
 // Them thu vien
-#include <ESP8266WiFi.h>
+
 #include <ESP8266WebServer.h>
+#include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 #include <DHT.h>
 #include "index.h"
@@ -11,13 +12,14 @@
 #define DHTPIN D1
 #define output_pin D2
 int temp=0, tempOld=0;
-int humi=0, humiOld=0;
+int humi=0, humiOld=0, tus=0;
+String trangthai = "OFF";
 // Thiet lap DHT
 DHT dht(DHTPIN, DHTTYPE);
 
 // Thong so WiFi nha ban
-const char* ssid = "Ank";
-const char* password = "1234567890";
+const char* ssid = "DESKTOP-BDE4ACL 0105";
+const char* password = "12345678";
 
 // Tao server
 ESP8266WebServer server(80);
@@ -62,7 +64,6 @@ void setup() {
   
  
 }
-
 void loop(void){
   server.handleClient();          //Handle client requests
 }
@@ -75,32 +76,36 @@ void handleRoot()
 
 void temperature()
 {
-  temp = dht.readTemperature();
-  if(temp != tempOld)
-  {
-    server.send(200, "text/plane", String(temp));
-    tempOld = temp;
-  }
+temp = dht.readTemperature();
+//  if(temp == tempOld){}
+//  else
+//  {tempOld = temp;
+   server.send(200, "text/plane", String(temp));
+    
+//  }
 }
 
 void humidity()
 {
   humi = dht.readHumidity();
-  if(humi != humiOld)
-  {
+//  if(humi == humiOld){}
+//  else{
+//    humiOld = humi;
     server.send(200, "text/plane", String(humi));
-    humiOld = humi;
-  }
+//    }
 }
 void ledControl()
 {
-    String tus = server.arg("status_led");
-    if(tus=="1")
+    tus = digitalRead(output_pin);
+    if(tus== LOW)
     {
+      trangthai = "OFF";
       digitalWrite(output_pin, 1);
     }
     else
     {
+      trangthai = "ON";
       digitalWrite(output_pin, 0);
     }
+    server.send(200, "text/plane", trangthai);
 }
