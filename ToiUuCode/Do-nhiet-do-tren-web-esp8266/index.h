@@ -16,7 +16,8 @@
     <div class="clear"></div>
     <div class="wrapper">
     <h1>Điều khiển đèn</h1>
-    <input type="button" onclick="ledControl()" id="led" value="ON" name="">
+    <input type="button" onclick="setTime()" id="led" value="ON" name="">
+    <input type="text" id="dem" name="">
   </div>
   </div>
   <style>
@@ -87,6 +88,17 @@
   };
   xhttp.open("GET", "humi", true);
   xhttp.send();
+  }
+  function setTime()
+  {
+    var giatri = document.getElementById("dem").value;
+    ledControl();
+    if(giatri != "")
+    {
+        setTimeout(function(){
+          ledControl();
+          }, parseInt(giatri));
+    }  
   }
   function ledControl() {
       xhttp.onreadystatechange = function() {

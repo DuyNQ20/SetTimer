@@ -18,8 +18,8 @@ String trangthai = "OFF";
 DHT dht(DHTPIN, DHTTYPE);
 
 // Thong so WiFi nha ban
-const char* ssid = "DESKTOP-BDE4ACL 0105";
-const char* password = "12345678";
+const char* ssid = "R&D WORKSHOP";
+const char* password = "174238hqv";
 
 // Tao server
 ESP8266WebServer server(80);
